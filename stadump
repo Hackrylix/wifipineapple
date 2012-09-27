@@ -1,0 +1,21 @@
+Station a0:0b:ba:c7:aa:36 (on wlan0)
+        ip address:     <b>172.16.42.248</b>
+        host name:      <b>android-d79a81135c466f91</b>
+        Karma SSID:     <b>'gvdd'</b>
+	inactive time:	40 ms
+	rx bytes:	15149
+	rx packets:	231
+	tx bytes:	15754
+	tx packets:	84
+	tx retries:	35
+	tx failed:	1
+	signal:  	-71 [-71] dBm
+	signal avg:	-72 [-72] dBm
+	tx bitrate:	26.0 MBit/s MCS 3
+	rx bitrate:	39.0 MBit/s MCS 4
+	authorized:	yes
+	authenticated:	yes
+	preamble:	short
+	WMM/WME:	yes
+	MFP:		no
+	TDLS peer:	no
