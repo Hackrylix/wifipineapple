@@ -41,8 +41,6 @@ if(isset($_GET[install])){
 
 if(isset($_GET[doInstall])){
 	installModule($_GET[name], $_GET[version], $_GET[doInstall], $_GET[md5]);
-        //echo "<font color=lime>".$strings["modules-js-installed"]."<br />".$strings["modules-js-pleaseWait"]."</font><br />";
-        //echo "<script type='text/javascript'>setTimeout(\"window.location='index.php?modules'\", 800);</script>";
 	exit();
 
 }
