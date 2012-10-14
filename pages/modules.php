@@ -22,8 +22,8 @@ if(isset($_GET[install])){
 	$md5 = $_GET[md5];
 	$freeSize = disk_free_space("/")/1024;
 	if($freeSize < 70 || $freeSize < $size+5){
-		$warning = $strings["modules-sizeWarning"]."<br /><br /><br /><a href=\"index.php?modules&doInstall=usb&name=$name&version=$version&md5=$md5\">".$strings["modules-usbInstall"]."</a>";
-	}
+		$warning = $strings["modules-sizeWarning"]."<br /><br /><br />";
+		if(exec("mount | grep \"on /usb\" -c") >= 1) $warning .= "<a href=\"index.php?modules&doInstall=usb&name=$name&version=$version&md5=$md5\">".$strings["modules-usbInstall"]."</a>";	}
 	echo "<div class=\"contentTitle\">".$strings["modules-install-title"]."</div>";
 	echo "<div class=\"contentContent\">";
 	if($warning != ""){
