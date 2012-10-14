@@ -76,6 +76,11 @@ if(isset($_GET[unpin])){
 
 ?>
 
+<?php
+if(isset($_GET[MD5error])){
+	echo "<font color=red>Sorry, there was an MD5 missmatch. Please try again.</font><br /><br />";
+}
+?>
 
 <div class="moduleTitle" align=left><?=$strings["modules-installed-title"]?></div>
 <div class="moduleContent" align=left>
@@ -187,7 +192,7 @@ echo "
                                   timeout: 10000,
                                   success: function(response){
                                         if(response == 'done') window.location = 'index.php?modules&done';
-										if(respone == 'md5') window.location = 'index.php?modules&MD5error';
+					if(respone == 'md5') window.location = 'index.php?modules&MD5error';
                                   }
                                 });
 
