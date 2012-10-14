@@ -200,7 +200,7 @@ echo "
 
 ";
 
-echo "<font color=lime>Please wait, the module is being downloaded and installed.</font>";
+echo "<font color=lime>Please wait, the infusion is being downloaded and installed.<br />Depending on network speed and infusion size, this could take a while.</font>";
 
 }
 
