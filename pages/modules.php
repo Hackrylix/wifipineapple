@@ -192,7 +192,7 @@ echo "
                                   timeout: 10000,
                                   success: function(response){
                                         if(response == 'done') window.location = 'index.php?modules&done';
-					if(respone == 'md5') window.location = 'index.php?modules&MD5error';
+					if(response == 'md5') window.location = 'index.php?modules&MD5error';
                                   }
                                 });
 
