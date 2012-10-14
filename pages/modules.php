@@ -41,8 +41,8 @@ if(isset($_GET[install])){
 
 if(isset($_GET[doInstall])){
 	installModule($_GET[name], $_GET[version], $_GET[doInstall], $_GET[md5]);
-        echo "<font color=lime>".$strings["modules-js-installed"]."<br />".$strings["modules-js-pleaseWait"]."</font><br />";
-        echo "<script type='text/javascript'>setTimeout(\"window.location='index.php?modules'\", 800);</script>";
+        //echo "<font color=lime>".$strings["modules-js-installed"]."<br />".$strings["modules-js-pleaseWait"]."</font><br />";
+        //echo "<script type='text/javascript'>setTimeout(\"window.location='index.php?modules'\", 800);</script>";
 	exit();
 
 }
@@ -163,38 +163,41 @@ function removeModule($name, $version, $dest){
 
 function installModule($name, $version, $dest, $md5){
 	global $strings;
-	exec("mkdir -p /tmp/modules");	
-	exec("wget -O /tmp/modules/mk4-module-".$name."-".$version.".tar.gz \"http://cloud.wifipineapple.com/index.php?downloads&downloadModule=".$name."&moduleVersion=".$version."\"");        
-	$path = "/tmp/modules/mk4-module-".$name."-".$version.".tar.gz";        
-	$md5_local = md5_file($path);
-	if($md5 == $md5_local){ 
-		$cmd = "tar -xzf ".$path." -C /tmp/modules/";        
-		exec($cmd);        
-		$configArray = explode("\n", trim(file_get_contents("/tmp/modules/mk4-module-".$name."-".$version."/module.conf")));        
-		$name = explode("=", $configArray[0]);        
-		$version = explode("=", $configArray[1]);        
-		$startPage = explode("=", $configArray[3]);
-		$supportLink = substr($configArray[4], 12);
 
-		switch($dest)
-		{
-			case "internal":
-				exec("echo '".$name[1]."|".$version[1]."|internal|".$startPage[1]."|".$supportLink."' >> /pineapple/modules/moduleList");
-				exec("mv ".substr_replace($path, "", -7)."/$name[1] /pineapple/modules/");
-				break;
-			case "usb":
-				if(!file_exists("modules/usbModules/")){
-					if(!file_exists("/usb/modules/")){
-						exec("mkdir /usb/modules");
-					}
-					exec("ln -s /usb/modules /pineapple/modules/usbModules");
-				}
-				exec("mkdir -p /pineapple/modules/usbModules/");
-                                exec("echo '".$name[1]."|".$version[1]."|usb|".$startPage[1]."|".$supportLink."' >> /pineapple/modules/moduleList");
-                                exec("mv ".substr_replace($path, "", -7)."/$name[1] /pineapple/modules/usbModules");
-				break;
-		}
-	}else echo "<font color=red>".$strings["modules-install-md5error"]."</font><br /><br />";
+echo "
+
+                              <script type='text/javascript' src='includes/jquery.min.js'></script>
+                                <script type='text/javascript'>
+
+                                $.ajax({
+                                  url: 'modules/installer.php?name=".$name."&version=".$version."&dest=".$dest."&md5=".$md5."',
+                                  cache: false,
+                                  timeout: 10000,
+                                  success: function(response){
+                                  }
+                                });
+
+                                var loop=self.setInterval('checkInstall()',600);
+
+                                function checkInstall(){
+
+                                $.ajax({
+                                  url: 'modules/installer.php?status',
+                                  cache: false,
+                                  timeout: 10000,
+                                  success: function(response){
+                                        if(response == 'done') window.location = 'index.php?modules&done';
+										if(respone == 'md5') window.location = 'index.php?modules&MD5error';
+                                  }
+                                });
+
+                                }
+                                </script>
+
+
+";
+
+echo "<font color=lime>Please wait, the module is being downloaded and installed.</font>";
 
 }
 
