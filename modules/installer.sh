@@ -31,7 +31,7 @@ if [[ $dest == "usb" ]]
 					#get config stuff
 					config=$(cat /usb/tmp/modules/mk4-module-$name-$version/module.conf)
 					confName=$(echo "$config" | grep -i name | awk '{split($0,array,"=")} END{print array[2]}')
-					confVersion=$(echo "$config" | grep -i name | awk '{split($0,array,"=")} END{print array[2]}')
+					confVersion=$(echo "$config" | grep -i version | awk '{split($0,array,"=")} END{print array[2]}')
 					confAuthor=$(echo "$config" | grep -i author | awk '{split($0,array,"=")} END{print array[2]}')
 					confStartPage=$(echo "$config" | grep -i startPage | awk '{split($0,array,"=")} END{print array[2]}')
 					confSupportLink=$(echo "$config" | grep -i supportLink | sed 's/supportLink=//g')
@@ -52,7 +52,7 @@ if [[ $dest == "usb" ]]
 					#get config stuff
 					config=$(cat /tmp/modules/mk4-module-$name-$version/module.conf)
 					confName=$(echo "$config" | grep -i name | awk '{split($0,array,"=")} END{print array[2]}')
-					confVersion=$(echo "$config" | grep -i name | awk '{split($0,array,"=")} END{print array[2]}')
+					confVersion=$(echo "$config" | grep -i version | awk '{split($0,array,"=")} END{print array[2]}')
 					confAuthor=$(echo "$config" | grep -i author | awk '{split($0,array,"=")} END{print array[2]}')
 					confStartPage=$(echo "$config" | grep -i startPage | awk '{split($0,array,"=")} END{print array[2]}')
 					confSupportLink=$(echo "$config" | grep -i supportLink | sed 's/supportLink=//g')
