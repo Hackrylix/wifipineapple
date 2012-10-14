@@ -5,7 +5,7 @@
 Firmware version: <?php echo file_get_contents("includes/fwversion");?><br\>
 
 The WiFi Pineapple is brought to you by the Jasager Team:
-<a href="http://www.digininja.org"><font color="lime">Robin Wood</font></a>, <a href="http://hak5.org"><font color="lime">Darren Kitchen</font></a>,  <a href="http://sebkinne.com"><font color="lime">Sebastian Kinne</font></a>, <a href="http://www.room362.com"><font color="lime">Rob Fuller</font></a>, and our <a href="http://www.wifipineapple.com/forums/"><font color="lime">hacktastic community</font></a>
+<a href="http://www.digininja.org"><font color="lime">Robin Wood</font></a>, <a href="http://hak5.org"><font color="lime">Darren Kitchen</font></a>, <a href="http://sebkinne.com"><font color="lime">Sebastian Kinne</font></a>, <a href="http://www.room362.com"><font color="lime">Rob Fuller</font></a>, and our <a href="http://cloud.wifipineapple.com/forum/"><font color="lime">hacktastic community</font></a>
 Open source software is distributed under the GNU <a href="http://www.gnu.org/licenses/gpl.html"><font color=white>General Public License</font></a>
 
 WiFi Pineapple is a wireless penetration testing tool

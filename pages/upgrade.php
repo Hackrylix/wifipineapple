@@ -111,7 +111,7 @@ if(isset($_POST[doUpgrade])){
 	}else if(isset($_FILES[upgrade])){
 	        exec("rm /tmp/upgrade*.bin");
 	        move_uploaded_file($_FILES[upgrade][tmp_name], "/tmp/upgrade.bin");
-	        if(exec("md5sum /tmp/upgrade.bin | grep -w ".$_POST[md5sum]) == ""){
+	        if(exec("md5sum /tmp/upgrade.bin | grep -w ".trim($_POST[md5sum])) == ""){
         	        $message = $strings["upgrade-md5Error"];
 	        }else{
 			$message = "<font color=lime>".$strings["upgrade-working"]."</font><br /><img src=\"includes/upgrade.gif\">";
@@ -146,7 +146,7 @@ if(isset($_POST[doUpgrade])){
 
 				</script>";
 
-		} #exec('sysupgrade -n /tmp/upgrade.bin');
+		}
 	}
 }
 
