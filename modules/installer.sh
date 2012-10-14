@@ -36,10 +36,11 @@ if [[ $dest == "usb" ]]
 					confStartPage=$(echo "$config" | grep -i startPage | awk '{split($0,array,"=")} END{print array[2]}')
 					confSupportLink=$(echo "$config" | grep -i supportLink | sed 's/supportLink=//g')
 				mv /usb/tmp/modules/mk4-module-$name-$version/$confName /usb/modules/
-				#rm -rf /usb/tmp/modules
+				rm -rf /usb/tmp/modules
 				echo "$confName|$confVersion|$dest|$confStartPage|$confSupportLink" >> /pineapple/modules/moduleList
 			else
 				sed -i 's/working/md5/g' /pineapple/modules/installer.php
+				rm -rf /usb/tmp/modules
 				exit
 		fi
 	else
@@ -60,6 +61,7 @@ if [[ $dest == "usb" ]]
 				echo "$confName|$confVersion|$dest|$confStartPage|$confSupportLink" >> /pineapple/modules/moduleList
 			else
 				sed -i 's/working/md5/g' /pineapple/modules/installer.php
+				rm -rf /tmp/modules
 				exit
 		fi
 fi
