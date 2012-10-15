@@ -88,24 +88,45 @@ if($localModules[0] == ""){
 	echo "<center>".$strings["modules-installed-noModules"]."</center>";
 }else{
 
-	echo "<table><th>".$strings["modules-table-name"]."</th><th>".$strings["modules-table-version"]."</th><th>".$strings["modules-table-location"]."</th><th>".$strings["modules-table-size"]."</th>";
-
+	$usbPresent = (exec("mount | grep \"on /usb\" -c") >= 1)?true:false;
+	$usbModules = false;
+	$moduleArray = array();
 	foreach($localModules as $module){
+		$usbModules = false;
 		$module = explode("|", $module);
-		if($module[2] == "internal") $size = dirSize("/pineapple/modules/".$module[0]);
-		else $size = dirSize("/pineapple/modules/usbModules/".$module[0]);
-		$removeLink = "<a href='index.php?modules&remove=".$module[0]."&version=".$module[1]."&dest=".$module[2]."'>".$strings["modules-links-remove"]."</a>";
-		if($module[4] == "") $supportLink = "";
-		else $supportLink = "<a href=\"".$module[4]."\" target=\"_blank\">".$strings["modules-links-supportLink"]."</a>";
+		
+		if($module[2] == "internal"){
+			$size = dirSize("/pineapple/modules/".$module[0]);
+		}else{
+			$size = dirSize("/pineapple/modules/usbModules/".$module[0]);
+		}
+		if($module[4] == ""){
+			$supportLink = "";
+		}else{
+			$supportLink = "<a href=\"".$module[4]."\" target=\"_blank\">".$strings["modules-links-supportLink"]."</a>";
+		}
 		if(isPinned($module[0], $module[2], $module[3])){
 			$pinLink = "<a href='index.php?modules&unpin=$module[0]'>".$strings["modules-links-unpin"]."</a>";
-		}else $pinLink = "<a href='index.php?modules&pin=$module[0]&dest=$module[2]&startPage=$module[3]'>".$strings["modules-links-pin"]."</a>";
-		if($module[2] == "internal")	$launchLink = "<a href='/modules/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
-		else $launchLink = "<a href='/modules/usbModules/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
-		echo "<tr><td>".$launchLink."</td><td>$module[1]</td><td>$module[2]</td><td>$size</td><td>$pinLink</td><td>$removeLink</td><td>".$supportLink."</td></tr>";
+		}else{
+			$pinLink = "<a href='index.php?modules&pin=$module[0]&dest=$module[2]&startPage=$module[3]'>".$strings["modules-links-pin"]."</a>";
+		}
+		if($module[2] == "internal"){
+			$launchLink = "<a href='/modules/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
+		}else{
+			$usbModules = true;
+			$launchLink = "<a href='/modules/usbModules/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
+		}
+		$removeLink = "<a href='index.php?modules&remove=".$module[0]."&version=".$module[1]."&dest=".$module[2]."'>".$strings["modules-links-remove"]."</a>";
+		
+		if($usbPresent){
+			array_push($moduleArray, "<tr><td>$launchLink</td><td>$module[1]</td><td>$module[2]</td><td>$size</td><td>$pinLink</td><td>$removeLink</td><td>$supportLink</td></tr>");
+		}else if(!$usbModules){
+			array_push($moduleArray, "<tr><td>$launchLink</td><td>$module[1]</td><td>$module[2]</td><td>$size</td><td>$pinLink</td><td>$removeLink</td><td>$supportLink</td></tr>");
+		}
 
 	}
-
+	echo "<table><th>".$strings["modules-table-name"]."</th><th>".$strings["modules-table-version"]."</th><th>".$strings["modules-table-location"]."</th><th>".$strings["modules-table-size"]."</th>";
+	foreach($moduleArray as $module) echo $module;
 	echo "</table>";
 }
 
