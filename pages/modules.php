@@ -4,9 +4,9 @@ $updateWarning = false;
 
 #Check if directory OR moduleList file does not exist.
 #Prevent errors.
-if(!file_exists("/pineapple/modules/") || !file_exists("/pineapple/modules/moduleList")){
-        exec("mkdir -p /pineapple/modules/");
-        exec("touch /pineapple/modules/moduleList");
+if(!file_exists("/pineapple/infusions/") || !file_exists("/pineapple/infusions/moduleList")){
+        exec("mkdir -p /pineapple/infusions/");
+        exec("touch /pineapple/infusions/moduleList");
 }
 
 ?>
@@ -96,9 +96,9 @@ if($localModules[0] == ""){
 		$module = explode("|", $module);
 		
 		if($module[2] == "internal"){
-			$size = dirSize("/pineapple/modules/".$module[0]);
+			$size = dirSize("/pineapple/infusions/".$module[0]);
 		}else{
-			$size = dirSize("/pineapple/modules/usbModules/".$module[0]);
+			$size = dirSize("/pineapple/infusions/usbInfusions/".$module[0]);
 		}
 		if($module[4] == ""){
 			$supportLink = "";
@@ -111,10 +111,10 @@ if($localModules[0] == ""){
 			$pinLink = "<a href='index.php?modules&pin=$module[0]&dest=$module[2]&startPage=$module[3]'>".$strings["modules-links-pin"]."</a>";
 		}
 		if($module[2] == "internal"){
-			$launchLink = "<a href='/modules/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
+			$launchLink = "<a href='/infusions/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
 		}else{
 			$usbModules = true;
-			$launchLink = "<a href='/modules/usbModules/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
+			$launchLink = "<a href='/infusions/usbInfusions/".$module[0]."/".$module[3]."'>".$module[0]."</a>";
 		}
 		$removeLink = "<a href='index.php?modules&remove=".$module[0]."&version=".$module[1]."&dest=".$module[2]."'>".$strings["modules-links-remove"]."</a>";
 		
@@ -125,9 +125,13 @@ if($localModules[0] == ""){
 		}
 
 	}
-	echo "<table><th>".$strings["modules-table-name"]."</th><th>".$strings["modules-table-version"]."</th><th>".$strings["modules-table-location"]."</th><th>".$strings["modules-table-size"]."</th>";
-	foreach($moduleArray as $module) echo $module;
-	echo "</table>";
+	if(count($moduleArray) > 0){
+		echo "<table><th>".$strings["modules-table-name"]."</th><th>".$strings["modules-table-version"]."</th><th>".$strings["modules-table-location"]."</th><th>".$strings["modules-table-size"]."</th>";
+		foreach($moduleArray as $module) echo $module;
+		echo "</table>";
+	}else{
+		echo "<center>There are no infusions installed on this device. Records show that there are some intsalled to a USB.<br />Please insert it to access the infusions again.</center>";
+	}
 }
 
 ?>
@@ -152,8 +156,8 @@ else{
 <?php
 
 function isPinned($name, $dest, $startPage){
-        if($dest == "internal") $link = "<b><a href='/modules/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
-        else $link = "<b><a href='/modules/usbModules/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
+        if($dest == "internal") $link = "<b><a href='/infusions/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
+        else $link = "<b><a href='/infusions/usbinfusions/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
 	$links = explode("\n",file_get_contents("/pineapple/includes/moduleNav"));
 	if(exec("cat /pineapple/includes/moduleNav | grep '$link'") != "")return true;
 	return false;
@@ -161,8 +165,8 @@ function isPinned($name, $dest, $startPage){
 }
 
 function pinToNav($name, $dest, $startPage){
-	if($dest == "internal") $link = "<b><a href='/modules/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
-	else $link = "<b><a href='/modules/usbModules/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
+	if($dest == "internal") $link = "<b><a href='/infusions/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
+	else $link = "<b><a href='/infusions/usbinfusions/".$name."/".$startPage."'><font color=black>$name</font></a></b>";
 	exec("echo '$link' >> /pineapple/includes/moduleNav");
 
 }
@@ -178,9 +182,9 @@ function dirSize($path){
 
 function removeModule($name, $version, $dest){
 
-	exec("sed -i '/".$name."|".$version."/d' /pineapple/modules/moduleList");
-	if($dest == "internal") exec("rm -rf /pineapple/modules/".$name);
-	else exec("rm -rf /pineapple/modules/usbModules/".$name);
+	exec("sed -i '/".$name."|".$version."/d' /pineapple/infusions/moduleList");
+	if($dest == "internal") exec("rm -rf /pineapple/infusions/".$name);
+	else exec("rm -rf /pineapple/infusions/usbinfusions/".$name);
 	unpinFromNav($name);
 
 }
@@ -247,7 +251,7 @@ function getRemoteList(){
 }
 
 function getLocalList(){
-	$localFile = trim(file_get_contents("modules/moduleList"));
+	$localFile = trim(file_get_contents("infusions/moduleList"));
 	$modules = explode("\n", $localFile);
 	return $modules;
 }
