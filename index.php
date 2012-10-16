@@ -1,7 +1,7 @@
 <html>
     <head>
     <title>Pineapple Control Center</title>
-    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" />
     <link rel="stylesheet" type="text/css" href="includes/styles.css" /> 
     <link rel="icon" href="favicon.ico" type="image/x-icon"> 
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
